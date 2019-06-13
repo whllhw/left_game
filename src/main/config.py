@@ -1,9 +1,9 @@
 # coding:utf-8
 
 
-class Config:
+class config:
     # 窗口的大小
-    wm_geometry = '450x500'
+    wm_geometry = '410x480'
     # canvas大小
     cnf = {
         'height': 400,
@@ -11,3 +11,4 @@ class Config:
     }
     # 更新时间间隔
     time_frame = 300
+    cell_size = (64, 64)
