@@ -3,7 +3,7 @@
 
 class Config:
     # 窗口的大小
-    wm_geometry = '600x600'
+    wm_geometry = '450x500'
     # canvas大小
     cnf = {
         'height': 400,

@@ -36,5 +36,5 @@ class Application(tk.Frame):
         self.clear_button.grid(row=0, column=1)
         self.edit_button.grid(row=0, column=2)
         self.speed_scale.grid(row=0, column=3)
-        self.canvas.grid(row=1, columnspan=3, rowspan=4,
+        self.canvas.grid(row=1, columnspan=4, rowspan=4,
                          sticky=tk.W + tk.E + tk.S)
