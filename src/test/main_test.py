@@ -1,65 +1,63 @@
 # coding:utf-8
 
-import unittest
+import pytest
 
 import numpy as np
 
 from src.main.matrix_iteration import matrix_iteration
 
+test_inputs = [
+    [
+        [0, 0, 0],
+        [1, 1, 1],
+        [0, 0, 0]
+    ],
+    [
+        [1, 0, 0],
+        [0, 0, 0],
+        [0, 0, 1]
+    ],
+    [
+        [0, 0, 1],
+        [0, 0, 1],
+        [1, 0, 1]
+    ],
+    [
+        [0, 0, 0, 1],
+        [0, 1, 0, 0],
+        [0, 1, 0, 0],
+        [1, 0, 0, 1]
+    ]
+]
+expecteds = [
+    [
+        [0, 1, 0],
+        [0, 1, 0],
+        [0, 1, 0]
+    ],
+    [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ],
+    [
+        [0, 0, 0],
+        [0, 0, 1],
+        [0, 1, 0]
+    ],
+    [
+        [0, 0, 0, 0],
+        [0, 0, 1, 0],
+        [1, 1, 1, 0],
+        [0, 0, 0, 0]
+    ]
 
-class AlgTest(unittest.TestCase):
+]
 
-    def test_matrix_iteration(self):
-        input = np.array([
-            [0, 0, 0],
-            [1, 1, 1],
-            [0, 0, 0]])
-        excepted = np.array([
-            [0, 1, 0],
-            [0, 1, 0],
-            [0, 1, 0]])
-        result = matrix_iteration(input)
-        self.assertTrue((excepted == result).all())
+test_data = list(map(lambda i: (np.array(i[0]), np.array(i[1])), zip(test_inputs, expecteds)))
 
-    def test_case(self):
-        input = np.array([
-            [1, 0, 0],
-            [0, 0, 0],
-            [0, 0, 1]])
-        excepted = np.array([
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0]])
-        result = matrix_iteration(input)
-        self.assertTrue((excepted == result).all())
 
-    def test_case_2(self):
-        input = np.array([
-            [0, 0, 1],
-            [0, 0, 1],
-            [1, 0, 1]])
-        excepted = np.array([
-            [0, 0, 0],
-            [0, 0, 1],
-            [0, 1, 0]])
-        result = matrix_iteration(input)
-        self.assertTrue((excepted == result).all())
-
-    def test_case_3(self):
-        input = np.array([
-            [0, 0, 0, 1],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [1, 0, 0, 1]
-        ])
-        excepted = np.array([
-            [0, 0, 0, 0],
-            [0, 0, 1, 0],
-            [1, 1, 1, 0],
-            [0, 0, 0, 0]
-        ])
-        result = matrix_iteration(input)
-        self.assertTrue((result == excepted).all(), print(excepted, result))
-
-    def print(self, expected, output):
-        return expected + '\n' + output
+@pytest.mark.parametrize("test_input,expected", test_data)
+def test_matrix_iteration(test_input, expected):
+    current = matrix_iteration(test_input)
+    assert (expected == current).all() == True

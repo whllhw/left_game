@@ -67,8 +67,8 @@ class CellView:
         :param diff_before: 若有此参数则会复用之前创建的矩形
         """
         shape = cells.shape
-        height = config.config.cnf['height'] / shape[0]
-        width = config.config.cnf['width'] / shape[1]
+        height = config.Config.cnf['height'] / shape[0]
+        width = config.Config.cnf['width'] / shape[1]
         for i in range(shape[0]):
             for j in range(shape[1]):
                 if diff_before is None or diff_before[i, j]:

@@ -12,7 +12,7 @@ class Application(tk.Frame):
     def __init__(self, master=None, canvas_config=None):
         super().__init__(master)
         self.master = master
-        self.canvas_config = config.config.cnf
+        self.canvas_config = config.Config.cnf
         self.create_widgets()
 
     def create_widgets(self):
@@ -23,6 +23,8 @@ class Application(tk.Frame):
         self.clear_button = tk.Button(self.master, text='clear')
         self.edit_button = tk.Button(self.master, text='edit')
         self.canvas = tk.Canvas(master=self.master, cnf=self.canvas_config, bg='white')
+        self.speed_scale = tk.Scale(self.master, from_=0, to=200, orient="horizontal")
+        self.speed_scale.pack()
 
         self.start_or_pause_button.pack()
         self.clear_button.pack()

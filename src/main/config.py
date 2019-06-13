@@ -1,6 +1,7 @@
 # coding:utf-8
 
-class config:
+
+class Config:
     # 窗口的大小
     wm_geometry = '600x600'
     # canvas大小
