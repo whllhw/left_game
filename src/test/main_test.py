@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from src.main.main import matrix_iteration
+from src.main.matrix_iteration import matrix_iteration
 
 
 class AlgTest(unittest.TestCase):
