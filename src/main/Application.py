@@ -17,11 +17,11 @@ class Application(tk.Frame):
         """
         创建UI控件
         """
-        self.start_or_pause_button = tk.Button(self, text='start')
-        self.clear_button = tk.Button(self, text='clear')
-        self.edit_button = tk.Button(self, text='edit')
+        self.start_or_pause_button = tk.Button(self.master, text='start')
+        self.clear_button = tk.Button(self.master, text='clear')
+        self.edit_button = tk.Button(self.master, text='edit')
         self.canvas = tk.Canvas(master=self.master, cnf=self.canvas_config)
-        self.canvas.create_rectangle(1, 1,
+        self.canvas.create_rectangle(0, 0,
                                      self.canvas_config['width'],
                                      self.canvas_config['height'],
                                      fill="white",

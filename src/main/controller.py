@@ -67,12 +67,12 @@ class GameController:
         # 开始游戏
         if self.game_state == GameState.PAUSE or self.game_state == GameState.INIT:
             self.game_state = GameState.RUNNING
-            self.handle.start_or_pause_button.config['text'] = 'pause'
+            self.handle.start_or_pause_button['text'] = 'pause'
             self.run()
         else:
             # 暂停游戏
             self.game_state = GameState.PAUSE
-            self.handle.start_or_pause_button.config['text'] = 'start'
+            self.handle.start_or_pause_button['text'] = 'start'
             if self.task_id:
                 self.handle.master.after_cancel(self.task_id)
                 self.task_id = 0

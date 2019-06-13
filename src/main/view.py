@@ -26,7 +26,7 @@ class CellView:
         handle = self.handle
         # 当 grid_ids 和 last_cells 和 cells 的形状相同
         # 说明可以复用之前的绘制图形
-        if self.grid_ids and self.grid_ids.shape == cells.shape \
+        if self.grid_ids is not None and self.grid_ids.shape == cells.shape \
                 and self.last_cells.shape == cells.shape:
             diff_before = self.last_cells == cells
             self._draw_canvas(handle, cells, diff_before)
@@ -69,6 +69,6 @@ class CellView:
         width = config.config.cnf['width'] / shape[1]
         for i in range(shape[0]):
             for j in range(shape[1]):
-                if not diff_before or diff_before[i, j]:
+                if diff_before is None or diff_before[i, j]:
                     color = "black" if cells[i, j] == 1 else "white"
                     self._draw_canvas_x_y(handle, i, j, width, height, color)
