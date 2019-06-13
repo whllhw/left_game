@@ -60,7 +60,6 @@ class GameController:
         self.handle.clear_button.bind('<Button-1>', self.clear)
         self.handle.start_or_pause_button.bind('<Button-1>', self.start_or_pause)
         self.handle.edit_button.bind('<Button-1>', self.edit)
-        self.handle.speed_scale.bind('<Button-1>', func=self.handle_speed_change)
 
     def start_or_pause(self, event):
         """
@@ -91,12 +90,10 @@ class GameController:
         """
         pass
 
-    def handle_speed_change(self, event):
-        Config.time_frame = event.widget.get()
-
     def run(self):
         for func in self.task_func:
             func()
+        print(config.Config.time_frame)
         self.task_id = self.handle.master.after(config.Config.time_frame, self.run)
 
     def main_loop(self):

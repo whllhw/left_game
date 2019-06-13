@@ -28,7 +28,7 @@ if __name__ == '__main__':
     # 构造GameController时，传入每帧执行的函数
     gameController = GameController(handle, [
         lambda: cell.set_cell(matrix_iteration(cell.get_cell())),
-        controller.update_view
+        controller.update_view,
     ])
 
     gameController.main_loop()
