@@ -1,9 +1,9 @@
 # coding:utf-8
-import tkinter as tk
 
 import numpy as np
 
 from src.main import config
+from src.main.Application import Application
 from src.main.model import CellModel
 
 
@@ -13,10 +13,8 @@ class CellView:
     细胞数据的可视化
     """
 
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.geometry(config.config.wm_geometry)
-        self.app = Application(master=self.root, canvas_config=config.config.cnf)
+    def __init__(self, handle: Application):
+        self.handle = handle
         self.last_cells = None
         self.grid_ids = None
 
@@ -25,7 +23,7 @@ class CellView:
         根据给定的细胞视图更新视图
         :param cells: 给定的细胞视图
         """
-        handle = self.app.get_handle()
+        handle = self.handle
         # 当 grid_ids 和 last_cells 和 cells 的形状相同
         # 说明可以复用之前的绘制图形
         if self.grid_ids and self.grid_ids.shape == cells.shape \
@@ -39,7 +37,7 @@ class CellView:
 
         self.last_cells = cells
 
-    def _draw_canvas_x_y(self, handle, x, y, width, height, color='white'):
+    def _draw_canvas_x_y(self, handle: Application, x: int, y: int, width: int, height: int, color='white'):
         """
         绘制指定xy位置的cell
         :param handle: 句柄
@@ -59,7 +57,7 @@ class CellView:
                                             outline="white")
         self.grid_ids[x, y] = id
 
-    def _draw_canvas(self, handle, cells: np.array, diff_before: np.array = None):
+    def _draw_canvas(self, handle: Application, cells: np.array, diff_before: np.array = None):
         """
         绘制cells
         :param handle: 句柄
@@ -68,40 +66,9 @@ class CellView:
         """
         shape = cells.shape
         height = config.config.cnf['height'] / shape[0]
-        width = config.config.cnf['weight'] / shape[1]
+        width = config.config.cnf['width'] / shape[1]
         for i in range(shape[0]):
             for j in range(shape[1]):
                 if not diff_before or diff_before[i, j]:
                     color = "black" if cells[i, j] == 1 else "white"
                     self._draw_canvas_x_y(handle, i, j, width, height, color)
-
-
-class Application(tk.Frame):
-    """
-    创建窗体及绘制UI
-    """
-
-    def __init__(self, master=None, canvas_config=None):
-        super().__init__(master)
-        self.master = master
-        self.canvas_config = canvas_config
-        self.create_widgets()
-
-    def create_widgets(self):
-        """
-        创建UI控件
-        """
-        self.pause_or_start_button = tk.Button(self, text='start')
-        self.clear_button = tk.Button(self, text='clear')
-        self.canvas = tk.Canvas(master=self.master, cnf=self.canvas_config)
-        self.canvas.create_rectangle(1, 1,
-                                     self.canvas_config['wight'],
-                                     self.canvas_config['height'],
-                                     fill="white",
-                                     outline="white")
-        self.pause_or_start_button.pack()
-        self.clear_button.pack()
-        self.canvas.pack()
-
-    def get_handle(self):
-        return self

@@ -33,14 +33,15 @@ class CellModel:
         :param src_cell: 原始array，若有则直接拷贝一份
         """
         assert x_size > 0 and y_size > 0
-        if src_cell:
+        if src_cell is not None:
             cls.cell = src_cell.copy()
         else:
             cls.cell = np.zeros((x_size, y_size))
+        return cls
 
     @classmethod
     def get_cell(cls):
-        if cls.cell:
+        if hasattr(cls, 'cell'):
             return cls.cell
         else:
             raise RuntimeError('尚未初始化')

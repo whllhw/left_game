@@ -6,3 +6,4 @@ class config:
         'height': 400,
         'width': 400
     }
+    time_frame = 300
