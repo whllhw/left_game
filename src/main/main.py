@@ -51,6 +51,18 @@ class GameController:
         self.handle.canvas.bind('<Button-1>', self.mouse_event_add)
         self.handle.canvas.bind('<Button-3>', self.mouse_event_delete)
         self.handle.random_buttoon.bind('<Button-1>', self.random_init)
+        self.handle.save_button.bind('<Button-1>', self.save_file)
+        self.handle.load_button.bind('<Button-1>', self.load_file)
+
+    def save_file(self, event):
+        util.save_file(self.cell_model.get_cells())
+
+    def load_file(self, event):
+        cells = util.load_file()
+        if cells is not None:
+            self.cell_model.set_cells(cells)
+            self.cell_controller.update_view()
+        print('loaded', self.cell_controller.get_cell())
 
     def random_init(self, event):
         self.cell_model.set_cells(
