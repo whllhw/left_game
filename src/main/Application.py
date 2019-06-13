@@ -37,8 +37,8 @@ class Application(tk.Frame):
         self.start_or_pause_button.grid(row=0, column=0)
         self.random_buttoon.grid(row=0, column=1)
         self.clear_button.grid(row=0, column=2)
-        self.load_button.grid(row=1, column=3)
-        self.save_button.grid(row=1, column=4)
+        self.load_button.grid(row=1, column=4)
+        self.save_button.grid(row=1, column=5)
         self.speed_scale.grid(row=0, column=3)
-        self.canvas.grid(row=1, columnspan=3, rowspan=4,
+        self.canvas.grid(row=1, columnspan=4, rowspan=4,
                          sticky=tk.W + tk.E + tk.S)
