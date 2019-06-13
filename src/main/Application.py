@@ -2,7 +2,7 @@
 import tkinter as tk
 
 from src.main import config
-from src.main.config import Config
+from src.main.config import config
 
 
 class Application(tk.Frame):
@@ -13,7 +13,7 @@ class Application(tk.Frame):
     def __init__(self, master=None, canvas_config=None):
         super().__init__(master)
         self.master = master
-        self.canvas_config = config.Config.cnf
+        self.canvas_config = config.cnf
         self.create_widgets()
 
     def create_widgets(self):
@@ -23,18 +23,18 @@ class Application(tk.Frame):
 
         self.start_or_pause_button = tk.Button(self.master, text='start')
         self.clear_button = tk.Button(self.master, text='clear')
-        self.edit_button = tk.Button(self.master, text='edit')
+        self.random_buttoon = tk.Button(self.master, text='random')
         self.canvas = tk.Canvas(self.master, cnf=self.canvas_config, bg='white')
 
         def handle_speed_change(delay):
-            Config.time_frame = delay
+            config.time_frame = delay
 
-        self.speed_scale = tk.Scale(self.master, from_=100, to=1000, orient="horizontal",
+        self.speed_scale = tk.Scale(self.master, from_=100, to=5000, orient="horizontal",
                                     command=handle_speed_change)
 
         self.start_or_pause_button.grid(row=0, column=0)
-        self.clear_button.grid(row=0, column=1)
-        self.edit_button.grid(row=0, column=2)
+        self.random_buttoon.grid(row=0, column=1)
+        self.clear_button.grid(row=0, column=2)
         self.speed_scale.grid(row=0, column=3)
         self.canvas.grid(row=1, columnspan=4, rowspan=4,
                          sticky=tk.W + tk.E + tk.S)

@@ -1,8 +1,7 @@
 # coding:utf-8
 
-import pytest
-
 import numpy as np
+import pytest
 
 from src.main.matrix_iteration import matrix_iteration
 

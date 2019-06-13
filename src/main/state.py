@@ -17,8 +17,10 @@ class GameState(Enum):
     running 运行中
     pause   暂停中
     stop    停止
+    editting 编辑中
     """
     INIT = 0
     RUNNING = 1
     PAUSE = 2
     STOP = 3
+    EDITTING = 4
