@@ -31,14 +31,16 @@ class Application(tk.Frame):
         def handle_speed_change(delay):
             config.time_frame = delay
 
-        self.speed_scale = tk.Scale(self.master, from_=100, to=5000, orient="horizontal",
+        self.speed_scale = tk.Scale(self.master, from_=300, to=5000, orient="horizontal",
                                     command=handle_speed_change)
 
         self.start_or_pause_button.grid(row=0, column=0)
         self.random_buttoon.grid(row=0, column=1)
         self.clear_button.grid(row=0, column=2)
-        self.load_button.grid(row=1, column=4)
-        self.save_button.grid(row=1, column=5)
-        self.speed_scale.grid(row=0, column=3)
-        self.canvas.grid(row=1, columnspan=4, rowspan=4,
-                         sticky=tk.W + tk.E + tk.S)
+        self.speed_scale.grid(row=1, column=1)
+
+        self.load_button.grid(row=2, column=0)
+        self.save_button.grid(row=2, column=1)
+        self.canvas.grid(row=3, columnspan=3,
+                         sticky=tk.W + tk.E + tk.S
+                         )
