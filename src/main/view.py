@@ -74,6 +74,6 @@ class CellView:
         for i in range(shape[0]):
             for j in range(shape[1]):
                 # 当diff_before传入为空，或者当前的位置需要更改
-                if diff_before is None or diff_before[i, j]:
+                if diff_before is None or not diff_before[i, j]:
                     color = "black" if cells[i, j] == 1 else "white"
                     self._draw_canvas_x_y(handle, i, j, width, height, color)
