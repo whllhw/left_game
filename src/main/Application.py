@@ -23,6 +23,7 @@ class Application(tk.Frame):
 
         self.start_or_pause_button = tk.Button(self.master, text='start')
         self.clear_button = tk.Button(self.master, text='clear')
+        self.random_buttoon = tk.Button(self.master, text='random')
         self.canvas = tk.Canvas(self.master, cnf=self.canvas_config, bg='white')
 
         def handle_speed_change(delay):
@@ -32,7 +33,8 @@ class Application(tk.Frame):
                                     command=handle_speed_change)
 
         self.start_or_pause_button.grid(row=0, column=0)
-        self.clear_button.grid(row=0, column=1)
+        self.random_buttoon.grid(row=0, column=1)
+        self.clear_button.grid(row=0, column=2)
         self.speed_scale.grid(row=0, column=3)
         self.canvas.grid(row=1, columnspan=3, rowspan=4,
                          sticky=tk.W + tk.E + tk.S)

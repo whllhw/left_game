@@ -50,6 +50,12 @@ class GameController:
         self.handle.canvas.bind('<B3-Motion>', self.mouse_event_delete)
         self.handle.canvas.bind('<Button-1>', self.mouse_event_add)
         self.handle.canvas.bind('<Button-3>', self.mouse_event_delete)
+        self.handle.random_buttoon.bind('<Button-1>', self.random_init)
+
+    def random_init(self, event):
+        self.cell_model.set_cells(
+            np.random.randint(0, 2, self.cell_model.get_cells().shape))
+        self.cell_controller.update_view()
 
     def start_or_pause(self, event):
         """
@@ -98,7 +104,6 @@ class GameController:
     def run(self):
         for func in self.task_func:
             func()
-        print(config.config.time_frame)
         self.task_id = self.handle.master.after(config.config.time_frame, self.run)
 
     def main_loop(self):
