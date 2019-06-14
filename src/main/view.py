@@ -36,6 +36,11 @@ class CellView:
 
         self.last_cells = cells.copy()
 
+    def show_i_j(self, cells: CellModel.cell, i: int, j: int):
+        width, height = util.get_width_height(cells)
+        color = "black" if cells[i, j] == 1 else "white"
+        self._draw_canvas_x_y(self.handle, i, j, width, height, color)
+
     def _draw_canvas_x_y(self, handle: Application, x: int, y: int, width: int, height: int, color='white'):
         """
         绘制指定x y位置的cell

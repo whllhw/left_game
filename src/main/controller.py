@@ -28,8 +28,8 @@ class CellController:
         print(self.model.get_cells())
         self.view.show_detail(self.model.get_cells())
 
-    # def clear_view(self):
-    #     self.view.
+    def update_single_view(self, x: int, y: int):
+        self.view.show_i_j(self.model.get_cells(), x, y)
 
     def set_cell(self, new_cell: np.array):
         self.model.set_cells(new_cell)
@@ -65,7 +65,10 @@ class GameController:
         """
         self.handle.clear_button.bind('<Button-1>', self.clear)
         self.handle.start_or_pause_button.bind('<Button-1>', self.start_or_pause)
-        self.handle.edit_button.bind('<Button-1>', self.edit)
+        self.handle.canvas.bind('<B1-Motion>', self.mouse_event_add)
+        self.handle.canvas.bind('<B3-Motion>', self.mouse_event_delete)
+        self.handle.canvas.bind('<Button-1>', self.mouse_event_add)
+        self.handle.canvas.bind('<Button-3>', self.mouse_event_delete)
 
     def start_or_pause(self, event):
         """
@@ -92,22 +95,9 @@ class GameController:
         self.cell_model.set_cells(np.zeros_like(self.cell_model.get_cells()))
         self.cell_controller.update_view()
 
-    def edit(self, event):
-        """
-        编辑canvas
-        """
-        # if self.game_state == GameState.RUNNING:
-        #     return
+    def _mouse_event0(self, event, delete=False):
         if self.game_state == GameState.RUNNING:
             return
-        if self.game_state == GameState.EDITTING:
-            self.handle.canvas.unbind('<B1-Motion>')
-            self.handle.canvas.unbind('<B3-Motion>')
-        else:
-            self.handle.canvas.bind('<B1-Motion>', self.mouse_event_add)
-            self.handle.canvas.bind('<B3-Motion>', self.mouse_event_delete)
-
-    def _mouse_event0(self, event, delete=False):
         if event.x < 0 or event.y < 0:
             return
         if event.x >= config.config.cnf['width'] or event.y >= config.config.cnf['height']:
@@ -117,7 +107,7 @@ class GameController:
         cells = self.cell_model.get_cells()
         cells[i, j] = 1 if not delete else 0
         self.cell_model.set_cells(cells)
-        self.cell_controller.update_view()
+        self.cell_controller.update_single_view(i, j)
 
     def mouse_event_add(self, event):
         self._mouse_event0(event)
