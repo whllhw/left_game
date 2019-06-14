@@ -12,3 +12,11 @@ def get_x_y(x, y, cells: np.array):
 def get_width_height(cells: np.array):
     shape = cells.shape
     return config.config.cnf['width'] / shape[0], config.config.cnf['height'] / shape[1]
+
+
+def save_file(cells: np.array, filename: str):
+    np.save(filename, cells)
+
+
+def load_file(filename: str):
+    return np.load(filename)
