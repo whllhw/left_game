@@ -98,6 +98,7 @@ class GameController:
     def run(self):
         for func in self.task_func:
             func()
+        print(config.config.time_frame)
         self.task_id = self.handle.master.after(config.config.time_frame, self.run)
 
     def main_loop(self):

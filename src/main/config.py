@@ -1,5 +1,6 @@
 # coding:utf-8
 
+
 class config:
     # 窗口的大小
     wm_geometry = '1280x760'
