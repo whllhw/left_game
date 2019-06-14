@@ -48,7 +48,9 @@ class CellView:
         :param color: 颜色
         """
         if self.grid_ids[x, y]:
-            handle.canvas.delete(self.grid_ids[x, y])
+            # handle.canvas.delete(self.grid_ids[x, y])
+            handle.canvas.itemconfig(self.grid_ids[x, y], fill=color)
+            return
         id = handle.canvas.create_rectangle(width * x,
                                             height * y,
                                             width * (x + 1),
