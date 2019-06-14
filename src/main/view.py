@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from src.main import config
+from src.main import util
 from src.main.Application import Application
 from src.main.model import CellModel
 
@@ -26,8 +26,7 @@ class CellView:
         handle = self.handle
         # 当 grid_ids 和 last_cells 和 cells 的形状相同
         # 说明可以复用之前的绘制图形
-        if self.grid_ids is not None and self.grid_ids.shape == cells.shape \
-                and self.last_cells.shape == cells.shape:
+        if self.grid_ids is not None:
             diff_before = self.last_cells == cells
             self._draw_canvas(handle, cells, diff_before)
         else:
@@ -35,11 +34,11 @@ class CellView:
             self.grid_ids = np.zeros_like(cells)
             self._draw_canvas(handle, cells)
 
-        self.last_cells = cells
+        self.last_cells = cells.copy()
 
     def _draw_canvas_x_y(self, handle: Application, x: int, y: int, width: int, height: int, color='white'):
         """
-        绘制指定xy位置的cell
+        绘制指定x y位置的cell
         :param handle: 句柄
         :param x: x
         :param y: y
@@ -48,7 +47,6 @@ class CellView:
         :param color: 颜色
         """
         if self.grid_ids[x, y]:
-            # handle.canvas.delete(self.grid_ids[x, y])
             handle.canvas.itemconfig(self.grid_ids[x, y], fill=color)
             return
         id = handle.canvas.create_rectangle(width * x,
@@ -67,10 +65,10 @@ class CellView:
         :param diff_before: 若有此参数则会复用之前创建的矩形
         """
         shape = cells.shape
-        height = config.config.cnf['height'] / shape[0]
-        width = config.config.cnf['width'] / shape[1]
+        width, height = util.get_width_height(cells)
         for i in range(shape[0]):
             for j in range(shape[1]):
+                # 当diff_before传入为空，或者当前的位置需要更改
                 if diff_before is None or diff_before[i, j]:
                     color = "black" if cells[i, j] == 1 else "white"
                     self._draw_canvas_x_y(handle, i, j, width, height, color)

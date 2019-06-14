@@ -21,13 +21,14 @@ if __name__ == '__main__':
     root.protocol('WM_DELETE_WINDOW', lambda: sys.exit(0))
     handle = Application(master=root)
 
-    cell = CellModel.init_cell(src_cell=np.random.randint(0, 2, [100, 100]))
+    cells = CellModel.init_cells(src_cells=np.random.randint(0, 1, config.config.cell_size))
     view = CellView(handle)
 
-    controller = CellController(cell, view)
+    controller = CellController(cells, view)
+    controller.update_view()
     # 构造GameController时，传入每帧执行的函数
-    gameController = GameController(handle, [
-        lambda: cell.set_cell(matrix_iteration(cell.get_cell())),
+    gameController = GameController(handle, cells, controller, [
+        lambda: cells.set_cells(matrix_iteration(cells.get_cells())),
         controller.update_view
     ])
 

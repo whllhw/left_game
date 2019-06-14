@@ -1,7 +1,7 @@
 # coding:utf-8
 import numpy as np
 
-from src.main import state, config
+from src.main import state, config, util
 from src.main.Application import Application
 from src.main.model import CellModel
 from src.main.state import GameState
@@ -25,13 +25,17 @@ class CellController:
         return self.model.state
 
     def update_view(self):
-        self.view.show_detail(self.model.get_cell())
+        print(self.model.get_cells())
+        self.view.show_detail(self.model.get_cells())
+
+    # def clear_view(self):
+    #     self.view.
 
     def set_cell(self, new_cell: np.array):
-        self.model.set_cell(new_cell)
+        self.model.set_cells(new_cell)
 
     def get_cell(self) -> CellModel.cell:
-        return self.model.get_cell()
+        return self.model.get_cells()
 
 
 class GameController:
@@ -39,10 +43,11 @@ class GameController:
     游戏控制器
     """
 
-    def __init__(self, handle: Application, task_func: list):
+    def __init__(self, handle: Application, cell_model: CellModel, cell_controller: CellController, task_func: list):
         """
-
         :param handle: 句柄
+        :param cell_model 细胞模型
+        :param cell_controller 细胞控制器
         :param task_func: 帧更新执行的任务函数
         """
         self.handle = handle
@@ -51,6 +56,8 @@ class GameController:
         # 记录运行中的任务id
         self.task_id = 0
         self.task_func = task_func
+        self.cell_model = cell_model
+        self.cell_controller = cell_controller
 
     def _bind_event(self):
         """
@@ -81,13 +88,42 @@ class GameController:
         """
         清除canvas上的内容
         """
-        pass
+        self.save_file()
+        self.cell_model.set_cells(np.zeros_like(self.cell_model.get_cells()))
+        self.cell_controller.update_view()
 
     def edit(self, event):
         """
         编辑canvas
         """
-        pass
+        # if self.game_state == GameState.RUNNING:
+        #     return
+        if self.game_state == GameState.RUNNING:
+            return
+        if self.game_state == GameState.EDITTING:
+            self.handle.canvas.unbind('<B1-Motion>')
+            self.handle.canvas.unbind('<B3-Motion>')
+        else:
+            self.handle.canvas.bind('<B1-Motion>', self.mouse_event_add)
+            self.handle.canvas.bind('<B3-Motion>', self.mouse_event_delete)
+
+    def _mouse_event0(self, event, delete=False):
+        if event.x < 0 or event.y < 0:
+            return
+        if event.x >= config.config.cnf['width'] or event.y >= config.config.cnf['height']:
+            return
+
+        i, j = util.get_x_y(event.x, event.y, self.cell_model.get_cells())
+        cells = self.cell_model.get_cells()
+        cells[i, j] = 1 if not delete else 0
+        self.cell_model.set_cells(cells)
+        self.cell_controller.update_view()
+
+    def mouse_event_add(self, event):
+        self._mouse_event0(event)
+
+    def mouse_event_delete(self, event):
+        self._mouse_event0(event, delete=True)
 
     def run(self):
         for func in self.task_func:
@@ -96,3 +132,9 @@ class GameController:
 
     def main_loop(self):
         self.handle.mainloop()
+
+    def save_file(self):
+        np.save('resource/map', self.cell_model.get_cells())
+
+    def load_file(self):
+        self.cell_model.set_cells(np.load('resource/map'))
